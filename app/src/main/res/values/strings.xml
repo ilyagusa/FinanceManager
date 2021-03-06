@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">FinanceManager</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_history">History</string>
+    <string name="title_stat">Statistics</string>
+    <string name="balance">Баланс</string>
+    <string name="deposit">Deposit:</string>
+    <string name="income_text">Доходы:</string>
+    <string name="expenses_text">Расходы:</string>
+    <string name="sum_balance_text">Всего:</string>
+    <string name="salary">Зарплата</string>
+    <string name="part_time_job">Подработка</string>
+    <string name="other_income">Другое</string>
+    <string name="food_text"><u>Продукты</u></string>
+    <string name="add_expenses">Добавить категорию</string>
+    <string name="choose_delete_dialog">Вы действительно хотите удалить категорию </string>
+    <string name="cancel_button">Нет</string>
+    <string name="submit_button">Да</string>
+    <string name="text_change_name_category">Редактирование названия категории </string>
+    <string name="text_name_category">Название категории</string>
+    <string name="submit_category_name_button">Применить</string>
+    <string name="type_operation">Тип операции</string>
+    <string name="category_operation">Категория:</string>
+    <string name="text_amount">50000 ₽</string>
+    <string name="date_operation">28.03.2021</string>
+    <string name="history_operation">Операции за текущий месяц:</string>
+    <string name="titile_info_message">Информационное сообщение</string>
+    <string name="expenses">Расходы</string>
+    <string name="income">Доходы</string>
+    <string name="title_create_expense">Добавить расход: </string>
+    <string name="create_expense_amount">Сумма:</string>
+    <string name="create_expense_message">Сообщение:</string>
+</resources>
