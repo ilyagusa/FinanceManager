@@ -3,6 +3,7 @@ package com.example.financemanager.ui.home.expensesCategory
 import android.app.Dialog
 import android.content.Context
 import android.content.res.Resources
+import android.text.InputFilter
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +12,12 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.financemanager.DecimalDigitsInputFilter
 import com.example.financemanager.R
 import com.example.financemanager.database.expensesCategoryDatabase.ExpensesCategory
+import kotlinx.android.synthetic.main.alert_empty_amount.*
 import kotlinx.android.synthetic.main.fragment_choose_delete_dialog.*
+import kotlinx.android.synthetic.main.fragment_create_expense.*
 import kotlinx.android.synthetic.main.fragment_edit_category_name.*
 
 
@@ -49,13 +53,7 @@ class ExpensesCategoryAdapter(viewModel: ExpensesCategoryViewModel, context: Con
 
         //Добавление расходов
         holder.expenseAmountButton.setOnClickListener() {
-            val dialog: Dialog = Dialog(context)
-            dialog.setContentView(R.layout.fragment_create_expense)
-
-
-            viewModelExpenses.insertFinanceOperation((-1)*1000.0,res.getString(R.string.expenses),item.categoryName,"myMessagemyMessagemyMessagemyMessagemyMessagemyMessagemyMessagemyMe" +
-                    "ssagemyMessagemyMessagemyMessagemyMessagemyMessagemyMessagemyMessagemyMessagemyMessagemyMessagemyMessa" +
-                    "gemyMessagemyMessagemyMessagemyMessagemyMessagemyMessagemyMessagemyMessagemyMessage")
+            createEditExpensesDialog(item)
         }
     }
 
@@ -100,6 +98,39 @@ class ExpensesCategoryAdapter(viewModel: ExpensesCategoryViewModel, context: Con
         dialog.show()
     }
 
+    private fun createEditExpensesDialog(item: ExpensesCategory) {
+        val dialog: Dialog = Dialog(context)
+        dialog.setContentView(R.layout.fragment_create_expense)
+        //фильтр для ввода денежной суммы (максимум 15 символов, и два символа после точки)
+        dialog.edit_expenses_amount.filters = arrayOf<InputFilter>(DecimalDigitsInputFilter(15, 2))
+        dialog.edit_expenses_category.setText(item.categoryName)
+        dialog.button_add_expenses.setOnClickListener(){
+            var value: Double = 0.0
+            val message: String = dialog.edit_expenses_message.text.toString()
+            val stringValue: String = dialog.edit_expenses_amount.text.toString()
+            if (stringValue.isNotEmpty()){
+                value = stringValue.toDouble()
+                viewModelExpenses.insertFinanceOperation((-1)*value, res.getString(R.string.expenses), item.categoryName, message)
+                dialog.dismiss()
+            }
+            else {
+                createAlertEmptyAmountDialog()
+            }
+        }
+        dialog.button_cancel_expenses.setOnClickListener(){
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
+    private fun createAlertEmptyAmountDialog() {
+        val alertDialogEmptyAmount: Dialog = Dialog(context)
+        alertDialogEmptyAmount.setContentView(R.layout.alert_empty_amount)
+        alertDialogEmptyAmount.button_ok.setOnClickListener(){
+            alertDialogEmptyAmount.dismiss()
+        }
+        alertDialogEmptyAmount.show()
+    }
 
 }
 

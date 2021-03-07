@@ -15,7 +15,7 @@ data class FinanceOperation(
         var operationId: Long = 0L,
 
         @ColumnInfo(name = "date_operation")
-        val dateOperation: String =  SimpleDateFormat("dd.MM.yyyy").format(Date()),
+        val dateOperation: String =  SimpleDateFormat("dd-MM-yyyy").format(Date()),
 
         @ColumnInfo(name = "amount")
         var amount: Double = 0.0,

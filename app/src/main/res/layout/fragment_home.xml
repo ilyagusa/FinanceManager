@@ -15,13 +15,12 @@
             android:id="@+id/balance_layout"
             android:layout_width="376dp"
             android:layout_height="190dp"
+            android:layout_marginBottom="492dp"
             android:background="@drawable/shadow_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.484"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.023">
+            app:layout_constraintHorizontal_bias="0.47"
+            app:layout_constraintStart_toStartOf="parent">
 
 
             <com.anychart.AnyChartView
@@ -91,13 +90,12 @@
             android:id="@+id/constraintLayout"
             android:layout_width="376dp"
             android:layout_height="150dp"
+            android:layout_marginBottom="7dp"
             android:background="@drawable/shadow_background"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/expense_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.47"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/balance_layout"
-            app:layout_constraintVertical_bias="0.025">
+            app:layout_constraintStart_toStartOf="parent">
 
             <TextView
                 android:id="@+id/income_text_second"
@@ -152,15 +150,13 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/expense_layout"
-            android:layout_width="373dp"
+            android:layout_width="376dp"
             android:layout_height="314dp"
+            android:layout_marginBottom="12dp"
             android:background="@drawable/shadow_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.47"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-            app:layout_constraintVertical_bias="0.104">
+            app:layout_constraintStart_toStartOf="parent">
 
             <TextView
                 android:id="@+id/expenese_text_second"
@@ -175,19 +171,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.057" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/button_list_expenses"
-                android:layout_width="359dp"
-                android:layout_height="240dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.905"
-                app:reverseLayout="true"
-                app:stackFromEnd="true" />
-
             <Button
                 android:id="@+id/add_category_button"
                 android:layout_width="146dp"
@@ -201,6 +184,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.023" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/button_list_expenses"
+                android:layout_width="359dp"
+                android:layout_height="240dp"
+                android:layout_marginBottom="8dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:reverseLayout="true"
+                app:stackFromEnd="true" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
