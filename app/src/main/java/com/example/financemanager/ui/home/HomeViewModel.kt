@@ -7,6 +7,8 @@ import androidx.lifecycle.MutableLiveData
 import com.example.financemanager.database.expensesCategoryDatabase.ExpensesCategory
 import com.example.financemanager.database.expensesCategoryDatabase.ExpensesCategoryDao
 import kotlinx.coroutines.*
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.math.exp
 
 class HomeViewModel(
@@ -20,12 +22,7 @@ class HomeViewModel(
     private var toExpenses = MutableLiveData<ExpensesCategory?>()
     private var asdExp = MutableLiveData<ExpensesCategory?>()
     val expensesList = dao.getAllExpenses()
-
-
-    private val _eventGameFinish = MutableLiveData<Boolean>()
-    val eventGameFinish: LiveData<Boolean>
-        get() = _eventGameFinish
-
+    val dateString: String = SimpleDateFormat("MMM yyyy").format(Date())
 
     init {
         initializeToExpenses()

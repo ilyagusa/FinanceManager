@@ -2,6 +2,7 @@ package com.example.financemanager.ui.home
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.res.Resources
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.renderscript.Sampler
@@ -47,13 +48,12 @@ class HomeFragment : Fragment() {
         val viewModelFactoryExpensesCategory = ExpensesCategoryViewModelFactory(expensesCategoryDao, daoFinanceOperationDao, application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
         viewModelExpenses = ViewModelProvider(this, viewModelFactoryExpensesCategory).get(ExpensesCategoryViewModel::class.java)
-
         val adapter = ExpensesCategoryAdapter(viewModelExpenses, this.context as Activity)
         binding.buttonListExpenses.adapter = adapter
 
         var pie = AnyChart.pie()
-        dataPieChart.add(ValueDataEntry("Доходы", 0))
-        dataPieChart.add(ValueDataEntry("Расходы", 0))
+        dataPieChart.add(ValueDataEntry(resources.getString(R.string.income), 0))
+        dataPieChart.add(ValueDataEntry(resources.getString(R.string.expenses), 0))
 
         binding.addCategoryButton.setOnClickListener() {
             createNewCategoryDialog()
@@ -66,11 +66,11 @@ class HomeFragment : Fragment() {
         viewModelExpenses.sumExpensesByMonth?.observe(viewLifecycleOwner, Observer { sumExpensesByMonth ->
             if(sumExpensesByMonth != null) {
                 binding.textExp.setText(sumExpensesByMonth.toString())
-                dataPieChart[1] = ValueDataEntry("Расходы", sumExpensesByMonth*(-1))
+                dataPieChart[1] = ValueDataEntry(resources.getString(R.string.expenses), sumExpensesByMonth*(-1))
             }
             else {
                 binding.textExp.setText("0.00")
-                dataPieChart[1] = ValueDataEntry("Расходы", 0)
+                dataPieChart[1] = ValueDataEntry(resources.getString(R.string.expenses), 0)
             }
             pie.data(dataPieChart)
         })
@@ -78,11 +78,11 @@ class HomeFragment : Fragment() {
         viewModelExpenses.sumIncomeByMonth?.observe(viewLifecycleOwner, Observer { sumIncomeByMonth ->
             if(sumIncomeByMonth != null) {
                 binding.textInc.setText(sumIncomeByMonth.toString())
-                dataPieChart[0] = ValueDataEntry("Доходы", 0.0 + sumIncomeByMonth.toDouble())
+                dataPieChart[0] = ValueDataEntry(resources.getString(R.string.income), 0.0 + sumIncomeByMonth.toDouble())
             }
             else {
                 binding.textInc.setText("0.00")
-                dataPieChart[0] = ValueDataEntry("Доходы", 4000)
+                dataPieChart[0] = ValueDataEntry(resources.getString(R.string.income), 4000)
             }
             pie.data(dataPieChart)
         })
@@ -134,7 +134,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun createPieChart(binding: FragmentHomeBinding, pie: Pie) {
-        pie.title("Февраль 2021")
+        pie.title(viewModel.dateString)
         val anyChartView = binding.pieChartView
         anyChartView.setChart(pie)
     }

@@ -11,10 +11,15 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.financemanager.DecimalDigitsInputFilter
+import com.example.financemanager.MainActivity
 import com.example.financemanager.R
 import com.example.financemanager.database.expensesCategoryDatabase.ExpensesCategory
+import com.example.financemanager.ui.dialog.CreateExpensesDialog
+import com.example.financemanager.ui.dialog.DeleteCategoryDialog
+import com.example.financemanager.ui.dialog.RedactCategoryDialog
 import kotlinx.android.synthetic.main.alert_empty_amount.*
 import kotlinx.android.synthetic.main.fragment_choose_delete_dialog.*
 import kotlinx.android.synthetic.main.fragment_create_expense.*
@@ -38,22 +43,28 @@ class ExpensesCategoryAdapter(viewModel: ExpensesCategoryViewModel, context: Con
 
     override fun onBindViewHolder(holder: ExpensesCategoryViewHolder, position: Int) {
         val item = data[position]
+        val activity = holder.activity
         holder.categoryName.text = item.categoryName
         holder.categoryName.movementMethod = ScrollingMovementMethod()
 
         //Удаление категории
         holder.deleteButton.setOnClickListener(){
-            createDeleteChooseDialog(item)
+            //createDeleteChooseDialog(item)
+            val dialog = DeleteCategoryDialog(item)
+            activity?.supportFragmentManager?.let {it1 -> dialog.show(it1, "deleteCategoryDialog")}
         }
 
         //Редактирование названия категории
         holder.redactionButton.setOnClickListener(){
-            createRedactCategoryDialog(item)
+            //createRedactCategoryDialog(item)
+            val dialog = RedactCategoryDialog(item)
+            activity?.supportFragmentManager?.let {it1 -> dialog.show(it1, "redactCategoryDialog")}
         }
 
         //Добавление расходов
         holder.expenseAmountButton.setOnClickListener() {
-            createEditExpensesDialog(item)
+            val dialog = CreateExpensesDialog(item)
+            activity?.supportFragmentManager?.let { it1 -> dialog.show(it1, "createExpensesDialog") }
         }
     }
 
@@ -64,78 +75,11 @@ class ExpensesCategoryAdapter(viewModel: ExpensesCategoryViewModel, context: Con
         return ExpensesCategoryViewHolder(view)
     }
 
-
-    private fun createRedactCategoryDialog(item: ExpensesCategory) {
-        val dialog: Dialog = Dialog(context)
-        dialog.setContentView(R.layout.fragment_edit_category_name)
-        dialog.text_category_change.movementMethod = ScrollingMovementMethod()
-        val str: String = context.resources.getString(R.string.text_change_name_category) + " '" + item.categoryName + "'"
-        dialog.text_category_change.text = str
-        val oldCatgoryName = item.categoryName
-        dialog.button_submit_name_category.setOnClickListener(){
-            viewModelExpenses.updateCategoryName(oldCatgoryName, dialog.edit_name_category.text.toString())
-            dialog.dismiss()
-        }
-        dialog.show()
-    }
-
-    private fun createDeleteChooseDialog(item: ExpensesCategory) {
-        val dialog: Dialog = Dialog(context)
-        dialog.setContentView(R.layout.fragment_choose_delete_dialog)
-        dialog.textViewChooseDelete.movementMethod = ScrollingMovementMethod()
-        val str: String = context.resources.getString(R.string.choose_delete_dialog) + " '" + item.categoryName + "' ?"
-        dialog.textViewChooseDelete.text = str
-        //closed dialog
-        dialog.cancel_button.setOnClickListener(){
-            dialog.dismiss()
-        }
-        //submit delete expenses_category
-        dialog.submit_button.setOnClickListener(){
-            viewModelExpenses.deleteCategoryByName(item.categoryName)
-            dialog.dismiss()
-            Toast.makeText(context,"Категори : " + item.categoryName + " удалена", Toast.LENGTH_SHORT).show()
-        }
-        dialog.show()
-    }
-
-    private fun createEditExpensesDialog(item: ExpensesCategory) {
-        val dialog: Dialog = Dialog(context)
-        dialog.setContentView(R.layout.fragment_create_expense)
-        //фильтр для ввода денежной суммы (максимум 15 символов, и два символа после точки)
-        dialog.edit_expenses_amount.filters = arrayOf<InputFilter>(DecimalDigitsInputFilter(15, 2))
-        dialog.edit_expenses_category.setText(item.categoryName)
-        dialog.button_add_expenses.setOnClickListener(){
-            var value: Double = 0.0
-            val message: String = dialog.edit_expenses_message.text.toString()
-            val stringValue: String = dialog.edit_expenses_amount.text.toString()
-            if (stringValue.isNotEmpty()){
-                value = stringValue.toDouble()
-                viewModelExpenses.insertFinanceOperation((-1)*value, "Расходы", item.categoryName, message)
-                dialog.dismiss()
-            }
-            else {
-                createAlertEmptyAmountDialog()
-            }
-        }
-        dialog.button_cancel_expenses.setOnClickListener(){
-            dialog.dismiss()
-        }
-        dialog.show()
-    }
-
-    private fun createAlertEmptyAmountDialog() {
-        val alertDialogEmptyAmount: Dialog = Dialog(context)
-        alertDialogEmptyAmount.setContentView(R.layout.alert_empty_amount)
-        alertDialogEmptyAmount.button_ok.setOnClickListener(){
-            alertDialogEmptyAmount.dismiss()
-        }
-        alertDialogEmptyAmount.show()
-    }
-
 }
 
 
 class ExpensesCategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    val activity = itemView.context as? MainActivity
     val categoryName: TextView = itemView.findViewById(R.id.text_expenses_list)
     val expenseAmountButton: Button = itemView.findViewById(R.id.button_expense_amount)
     val redactionButton: Button = itemView.findViewById(R.id.button_redaction)
