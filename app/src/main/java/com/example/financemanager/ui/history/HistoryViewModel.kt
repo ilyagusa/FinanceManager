@@ -8,6 +8,8 @@ import com.example.financemanager.database.expensesCategoryDatabase.ExpensesCate
 import com.example.financemanager.database.financeOperationDatabase.FinanceOperation
 import com.example.financemanager.database.financeOperationDatabase.FinanceOperationDao
 import kotlinx.coroutines.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class HistoryViewModel(
         private val dao: FinanceOperationDao,
@@ -16,12 +18,12 @@ class HistoryViewModel(
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main +  viewModelJob)
 
-    private var toOperation = MutableLiveData<FinanceOperation?>()
-    val operationList = dao.getAllFinanceOperation()
+    val sumExpensesByMonth = dao.getSumAmountByTypeAndMonth(SimpleDateFormat("MM").format(Date()), "Расходы")
+    val sumIncomeByMonth = dao.getSumAmountByTypeAndMonth(SimpleDateFormat("MM").format(Date()), "Доходы")
 
-    private val _navigateToFinanceOperation = MutableLiveData<FinanceOperation>()
-    val navigateToFinanceOperation: LiveData<FinanceOperation>
-        get() = _navigateToFinanceOperation
+    private var toOperation = MutableLiveData<FinanceOperation?>()
+
+    val operationList = dao.getAllFinanceOperation(SimpleDateFormat("MM").format(Date()))
 
     init {
         initializeToOperation()
@@ -37,26 +39,6 @@ class HistoryViewModel(
         return withContext(Dispatchers.IO) {
             var operation = dao.getToFinanceOperation()
             operation
-        }
-    }
-
-
-    fun insertOperation(categoryName : String) {
-        uiScope.launch {
-            val operation = FinanceOperation()
-            operation.categoryOperation = categoryName
-            operation.amount = 500.0
-            operation.typeOperation = "Оплата"
-            operation.informationMessage = "re"
-            insert(operation)
-            toOperation.value = getToOperationFromDatabase()
-        }
-    }
-
-
-    private suspend fun insert(financeOperation: FinanceOperation) {
-        withContext(Dispatchers.IO) {
-            dao.insert(financeOperation)
         }
     }
 

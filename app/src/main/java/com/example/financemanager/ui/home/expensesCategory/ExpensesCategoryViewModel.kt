@@ -1,13 +1,20 @@
 package com.example.financemanager.ui.home.expensesCategory
 
 import android.app.Application
+import android.provider.ContactsContract
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.anychart.chart.common.dataentry.DataEntry
+import com.anychart.chart.common.dataentry.ValueDataEntry
 import com.example.financemanager.database.expensesCategoryDatabase.ExpensesCategory
 import com.example.financemanager.database.expensesCategoryDatabase.ExpensesCategoryDao
 import com.example.financemanager.database.financeOperationDatabase.FinanceOperation
 import com.example.financemanager.database.financeOperationDatabase.FinanceOperationDao
 import kotlinx.coroutines.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ExpensesCategoryViewModel(
         private val daoExpensesCategory: ExpensesCategoryDao,
@@ -18,6 +25,11 @@ class ExpensesCategoryViewModel(
     private val uiScope = CoroutineScope(Dispatchers.Main +  viewModelJob)
     private var toExpenses = MutableLiveData<ExpensesCategory?>()
     private var toOperation = MutableLiveData<FinanceOperation>()
+    //val dataEntry: LiveData<ArrayList<DataEntry>> = Arra
+
+    val sumExpensesByMonth = daoFinanceOperation.getSumAmountByTypeAndMonth(SimpleDateFormat("MM").format(Date()), "Расходы")
+    val sumIncomeByMonth = daoFinanceOperation.getSumAmountByTypeAndMonth(SimpleDateFormat("MM").format(Date()), "Доходы")
+    val sumAllOperation = daoFinanceOperation.getSumByMonth(SimpleDateFormat("MM").format(Date()))
 
     init {
         initializeToExpenses()

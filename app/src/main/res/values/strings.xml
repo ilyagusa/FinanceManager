@@ -1,10 +1,8 @@
 <resources>
-    <string name="app_name">FinanceManager</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="title_history">History</string>
-    <string name="title_stat">Statistics</string>
+    <string name="app_name">Менеджер финансов</string>
+    <string name="title_home">Главная</string>
+    <string name="title_history">История</string>
+    <string name="title_stat">Статистика</string>
     <string name="balance">Баланс</string>
     <string name="deposit">Deposit:</string>
     <string name="income_text">Доходы:</string>
@@ -13,13 +11,14 @@
     <string name="salary">Зарплата</string>
     <string name="part_time_job">Подработка</string>
     <string name="other_income">Другое</string>
-    <string name="food_text"><u>Продукты</u></string>
+    <string name="food_text">Продукты</string>
     <string name="add_expenses">Добавить категорию</string>
     <string name="choose_delete_dialog">Вы действительно хотите удалить категорию </string>
     <string name="cancel_button">Нет</string>
     <string name="submit_button">Да</string>
     <string name="text_change_name_category">Редактирование названия категории </string>
     <string name="text_name_category">Название категории</string>
+    <string name="text_name_category_two">Название категории:</string>
     <string name="submit_category_name_button">Применить</string>
     <string name="type_operation">Тип операции</string>
     <string name="category_operation">Категория:</string>
@@ -38,4 +37,6 @@
     <string name="cancel_expenses_button">Отмена</string>
     <string name="empty_amount">Сумма доходов/расходов не должна быть пустой</string>
     <string name="ok">Ок</string>
+    <string name="create_new_category_title">Создание новой категории</string>
+    <string name="empty_name_category">Название категории не должно быть пустым</string>
 </resources>

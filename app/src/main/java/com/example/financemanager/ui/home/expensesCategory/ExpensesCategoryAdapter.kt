@@ -110,7 +110,7 @@ class ExpensesCategoryAdapter(viewModel: ExpensesCategoryViewModel, context: Con
             val stringValue: String = dialog.edit_expenses_amount.text.toString()
             if (stringValue.isNotEmpty()){
                 value = stringValue.toDouble()
-                viewModelExpenses.insertFinanceOperation((-1)*value, res.getString(R.string.expenses), item.categoryName, message)
+                viewModelExpenses.insertFinanceOperation((-1)*value, "Расходы", item.categoryName, message)
                 dialog.dismiss()
             }
             else {

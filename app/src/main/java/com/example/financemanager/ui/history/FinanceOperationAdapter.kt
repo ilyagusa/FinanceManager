@@ -2,6 +2,7 @@ package com.example.financemanager.ui.history
 
 import android.app.Dialog
 import android.content.Context
+import android.content.res.Resources
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import kotlinx.android.synthetic.main.fragment_info_message.*
 class FinanceOperationAdapter(context: Context) : RecyclerView.Adapter<FinanceOperationViewHolder>() {
 
     private var context = context
+    private val res: Resources = context.resources
 
     var data = listOf<FinanceOperation>()
         set(value) {
@@ -29,13 +31,17 @@ class FinanceOperationAdapter(context: Context) : RecyclerView.Adapter<FinanceOp
 
     override fun onBindViewHolder(holder: FinanceOperationViewHolder, position: Int) {
         val item = data[position]
-        holder.typeOperation.text = item.typeOperation
+        if (item.typeOperation == "Расходы") {
+            holder.typeOperation.text = res.getString(R.string.expenses)
+        } else {
+            holder.typeOperation.text = res.getString(R.string.income)
+        }
         holder.categoryOperation.text = item.categoryOperation
         holder.categoryOperation.movementMethod = ScrollingMovementMethod()
         var amountString: String = item.amount.toString() + " ₽"
         holder.amountOperation.text = amountString
         holder.dateOperation.text = item.dateOperation
-        holder.buttonInfoMessage.setOnClickListener(){
+        holder.buttonInfoMessage.setOnClickListener() {
             val dialog: Dialog = Dialog(context)
             dialog.setContentView(R.layout.fragment_info_message)
             dialog.text_info_message.text = item.informationMessage

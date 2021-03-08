@@ -32,4 +32,8 @@ interface ExpensesCategoryDao {
 
     @Query("SELECT * FROM expenses_category ORDER BY id DESC LIMIT 1")
     fun getToExpenses(): ExpensesCategory?
+
+    @Query("SELECT * FROM expenses_category WHERE category_name = :name")
+    fun isRowIsExist(name : String) : ExpensesCategory?
+
 }
