@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ExpensesCategoryViewModel(
+class FinanceOperationViewModel(
         private val daoExpensesCategory: ExpensesCategoryDao,
         private val daoFinanceOperation: FinanceOperationDao,
         application: Application) : AndroidViewModel(application) {
@@ -25,7 +25,6 @@ class ExpensesCategoryViewModel(
     private val uiScope = CoroutineScope(Dispatchers.Main +  viewModelJob)
     private var toExpenses = MutableLiveData<ExpensesCategory?>()
     private var toOperation = MutableLiveData<FinanceOperation>()
-    //val dataEntry: LiveData<ArrayList<DataEntry>> = Arra
 
     val sumExpensesByMonth = daoFinanceOperation.getSumAmountByTypeAndMonth(SimpleDateFormat("MM").format(Date()), "Расходы")
     val sumIncomeByMonth = daoFinanceOperation.getSumAmountByTypeAndMonth(SimpleDateFormat("MM").format(Date()), "Доходы")

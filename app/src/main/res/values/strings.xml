@@ -29,6 +29,7 @@
     <string name="expenses">Расходы</string>
     <string name="income">Доходы</string>
     <string name="title_create_expense">Добавить расход: </string>
+    <string name="title_create_income">Добавить доход: </string>
     <string name="create_expense_amount">Сумма:</string>
     <string name="create_expense_message">Сообщение:</string>
     <string name="hint_amount_expenses">500.00</string>

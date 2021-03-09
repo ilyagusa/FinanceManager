@@ -1,34 +1,25 @@
 package com.example.financemanager.ui.home.expensesCategory
 
-import android.app.Dialog
 import android.content.Context
 import android.content.res.Resources
-import android.text.InputFilter
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.financemanager.DecimalDigitsInputFilter
 import com.example.financemanager.MainActivity
 import com.example.financemanager.R
 import com.example.financemanager.database.expensesCategoryDatabase.ExpensesCategory
 import com.example.financemanager.ui.dialog.CreateExpensesDialog
 import com.example.financemanager.ui.dialog.DeleteCategoryDialog
 import com.example.financemanager.ui.dialog.RedactCategoryDialog
-import kotlinx.android.synthetic.main.alert_empty_amount.*
-import kotlinx.android.synthetic.main.fragment_choose_delete_dialog.*
-import kotlinx.android.synthetic.main.fragment_create_expense.*
-import kotlinx.android.synthetic.main.fragment_edit_category_name.*
 
 
-class ExpensesCategoryAdapter(viewModel: ExpensesCategoryViewModel, context: Context) : RecyclerView.Adapter<ExpensesCategoryViewHolder>() {
+class ExpensesCategoryAdapter(viewModel: FinanceOperationViewModel, context: Context) : RecyclerView.Adapter<ExpensesCategoryViewHolder>() {
 
-    private var viewModelExpenses : ExpensesCategoryViewModel = viewModel
+    private var viewModelExpenses : FinanceOperationViewModel = viewModel
     private var context = context
     private val res: Resources = context.resources
 

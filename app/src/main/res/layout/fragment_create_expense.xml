@@ -5,7 +5,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="344dp"
-        android:layout_height="290dp">
+        android:layout_height="300dp">
 
         <TextView
             android:id="@+id/create_expense_message"
@@ -90,24 +90,24 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button_add_expenses"
-            android:layout_width="120dp"
-            android:layout_height="45dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"
-            android:text="@string/add_expenses_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/create_expense_message" />
-
-        <Button
             android:id="@+id/button_cancel_expenses"
             android:layout_width="120dp"
             android:layout_height="45dp"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="28dp"
             android:text="@string/cancel_expenses_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_expenses_message" />
+
+        <Button
+            android:id="@+id/button_add_expenses"
+            android:layout_width="120dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/add_expenses_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/create_expense_message" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -2,14 +2,10 @@ package com.example.financemanager.ui.home
 
 import android.app.Activity
 import android.app.Dialog
-import android.content.res.Resources
 import android.os.Bundle
-import android.provider.ContactsContract
-import android.renderscript.Sampler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -22,19 +18,19 @@ import com.example.financemanager.R
 import com.example.financemanager.database.expensesCategoryDatabase.ExpensesCategoryDatabase
 import com.example.financemanager.database.financeOperationDatabase.FinanceOperationDatabase
 import com.example.financemanager.databinding.FragmentHomeBinding
+import com.example.financemanager.ui.dialog.CreateCategoryDialog
+import com.example.financemanager.ui.dialog.CreateIncomeDialog
 import com.example.financemanager.ui.home.expensesCategory.ExpensesCategoryAdapter
-import com.example.financemanager.ui.home.expensesCategory.ExpensesCategoryViewModel
-import com.example.financemanager.ui.home.expensesCategory.ExpensesCategoryViewModelFactory
+import com.example.financemanager.ui.home.expensesCategory.FinanceOperationViewModel
+import com.example.financemanager.ui.home.expensesCategory.FinanceOperationViewModelFactory
 import kotlinx.android.synthetic.main.alert_empty_category.*
 import kotlinx.android.synthetic.main.fragment_create_new_category.*
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_home.view.*
 
 
 class HomeFragment : Fragment() {
 
     private lateinit var viewModel: HomeViewModel
-    private lateinit var viewModelExpenses: ExpensesCategoryViewModel
+    private lateinit var viewModelExpenses: FinanceOperationViewModel
     private val dataPieChart : ArrayList<DataEntry> = arrayListOf()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -45,9 +41,9 @@ class HomeFragment : Fragment() {
         val expensesCategoryDao = ExpensesCategoryDatabase.getInstance(application).getExpensesCategoryDatabaseDao()
         val daoFinanceOperationDao = FinanceOperationDatabase.getInstance(application).getFinanceOperationDatabaseDao()
         val viewModelFactory = HomeViewModelFactory(expensesCategoryDao, application)
-        val viewModelFactoryExpensesCategory = ExpensesCategoryViewModelFactory(expensesCategoryDao, daoFinanceOperationDao, application)
+        val viewModelFactoryExpensesCategory = FinanceOperationViewModelFactory(expensesCategoryDao, daoFinanceOperationDao, application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
-        viewModelExpenses = ViewModelProvider(this, viewModelFactoryExpensesCategory).get(ExpensesCategoryViewModel::class.java)
+        viewModelExpenses = ViewModelProvider(this, viewModelFactoryExpensesCategory).get(FinanceOperationViewModel::class.java)
         val adapter = ExpensesCategoryAdapter(viewModelExpenses, this.context as Activity)
         binding.buttonListExpenses.adapter = adapter
 
@@ -56,11 +52,24 @@ class HomeFragment : Fragment() {
         dataPieChart.add(ValueDataEntry(resources.getString(R.string.expenses), 0))
 
         binding.addCategoryButton.setOnClickListener() {
-            createNewCategoryDialog()
+            //createNewCategoryDialog()
+            val dialog = CreateCategoryDialog(viewModel)
+            activity?.supportFragmentManager?.let { it1 -> dialog.show(it1, "createCategoryDialog") }
         }
 
         binding.buttonSalary.setOnClickListener() {
-            viewModel.onClear()
+            val dialog = CreateIncomeDialog(resources.getString(R.string.salary))
+            activity?.supportFragmentManager?.let { it1 -> dialog.show(it1, "createIncomeDialog") }
+        }
+
+        binding.buttonPartTimeJob.setOnClickListener() {
+            val dialog = CreateIncomeDialog(resources.getString(R.string.part_time_job))
+            activity?.supportFragmentManager?.let { it1 -> dialog.show(it1, "createIncomeDialog1") }
+        }
+
+        binding.buttonOtherIncome.setOnClickListener() {
+            val dialog = CreateIncomeDialog(resources.getString(R.string.other_income))
+            activity?.supportFragmentManager?.let { it1 -> dialog.show(it1, "createIncomeDialog2") }
         }
 
         viewModelExpenses.sumExpensesByMonth?.observe(viewLifecycleOwner, Observer { sumExpensesByMonth ->

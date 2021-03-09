@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="192dp">
 
@@ -26,13 +26,12 @@
             android:id="@+id/edit_name_category"
             android:layout_width="144dp"
             android:layout_height="41dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="@string/text_name_category"
             android:inputType="text"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.222"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_category_change" />
 
@@ -41,11 +40,12 @@
             android:layout_width="105dp"
             android:layout_height="44dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="116dp"
-            android:layout_marginEnd="64dp"
+            android:layout_marginTop="120dp"
+            android:layout_marginEnd="40dp"
             android:text="@string/submit_category_name_button"
             android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.526"
             app:layout_constraintStart_toEndOf="@+id/edit_name_category"
             app:layout_constraintTop_toTopOf="parent" />
 

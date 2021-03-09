@@ -1,6 +1,7 @@
 package com.example.financemanager.ui.home
 
 import android.app.Application
+import android.text.Editable
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -76,10 +77,6 @@ class HomeViewModel(
             asdExp.value = getToExpensesByNameFromDatabase(categoryName)
             if (asdExp.value?.categoryName != categoryName){
                 insertButton(categoryName)
-                false
-            }
-            else {
-                true
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.example.financemanager.ui.dialog
 
+
 import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
@@ -19,10 +20,10 @@ import com.example.financemanager.ui.home.expensesCategory.FinanceOperationViewM
 import kotlinx.android.synthetic.main.alert_empty_amount.*
 
 
-class CreateExpensesDialog(item: ExpensesCategory) : DialogFragment() {
+class CreateIncomeDialog(incomeCategoryName: String) : DialogFragment() {
 
     private lateinit var viewModelExpenses: FinanceOperationViewModel
-    private var item: ExpensesCategory = item
+    private var incomeCategoryName = incomeCategoryName
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -36,7 +37,8 @@ class CreateExpensesDialog(item: ExpensesCategory) : DialogFragment() {
         val daoFinanceOperationDao = FinanceOperationDatabase.getInstance(application).getFinanceOperationDatabaseDao()
         val viewModelFactoryExpensesCategory = FinanceOperationViewModelFactory(expensesCategoryDao, daoFinanceOperationDao, application)
         viewModelExpenses = ViewModelProvider(this, viewModelFactoryExpensesCategory).get(FinanceOperationViewModel::class.java)
-        binding.editExpensesCategory.setText(item.categoryName)
+        binding.titleCreateExpense.text = resources.getString(R.string.title_create_income)
+        binding.editExpensesCategory.setText(incomeCategoryName)
         binding.buttonCancelExpenses.setOnClickListener() {
             dismiss()
         }
@@ -47,7 +49,7 @@ class CreateExpensesDialog(item: ExpensesCategory) : DialogFragment() {
             var stringValue: String = binding.editExpensesAmount.text.toString()
             if (stringValue.isNotEmpty()){
                 value = stringValue.toDouble()
-                viewModelExpenses.insertFinanceOperation((-1)*value, "Расходы", item.categoryName, message)
+                viewModelExpenses.insertFinanceOperation(value, "Доходы", incomeCategoryName, message)
                 dismiss()
             }
             else {
@@ -58,7 +60,6 @@ class CreateExpensesDialog(item: ExpensesCategory) : DialogFragment() {
         binding.buttonCancelExpenses.setOnClickListener() {
             dismiss()
         }
-
 
         return binding.root
     }
