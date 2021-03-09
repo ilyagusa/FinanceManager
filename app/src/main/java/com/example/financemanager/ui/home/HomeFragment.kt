@@ -91,7 +91,7 @@ class HomeFragment : Fragment() {
             }
             else {
                 binding.textInc.setText("0.00")
-                dataPieChart[0] = ValueDataEntry(resources.getString(R.string.income), 4000)
+                dataPieChart[0] = ValueDataEntry(resources.getString(R.string.income), 0.0)
             }
             pie.data(dataPieChart)
         })

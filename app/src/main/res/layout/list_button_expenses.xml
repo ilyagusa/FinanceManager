@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_for_expenses_button"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="55.5dp"
     android:background="@drawable/shadow_background_gray">
 
 
