@@ -1,5 +1,6 @@
 package com.example.financemanager.ui.history
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.res.Resources
@@ -9,9 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.financemanager.MainActivity
 import com.example.financemanager.R
 import com.example.financemanager.database.financeOperationDatabase.FinanceOperation
+import com.example.financemanager.ui.dialog.DeleteFinanceOperationDialog
 import kotlinx.android.synthetic.main.fragment_edit_category_name.*
 import kotlinx.android.synthetic.main.fragment_info_message.*
 
@@ -31,10 +35,16 @@ class FinanceOperationAdapter(context: Context) : RecyclerView.Adapter<FinanceOp
 
     override fun onBindViewHolder(holder: FinanceOperationViewHolder, position: Int) {
         val item = data[position]
+        val activity = holder.activity
         if (item.typeOperation == "Расходы") {
             holder.typeOperation.text = res.getString(R.string.expenses)
         } else {
             holder.typeOperation.text = res.getString(R.string.income)
+        }
+        holder.itemView.setOnLongClickListener() {
+            val dialog = DeleteFinanceOperationDialog(item)
+            activity?.supportFragmentManager?.let { it1 -> dialog.show(it1, "deleteFinanceOprationDialog") }
+            return@setOnLongClickListener true
         }
         holder.categoryOperation.text = item.categoryOperation
         holder.categoryOperation.movementMethod = ScrollingMovementMethod()
@@ -60,6 +70,7 @@ class FinanceOperationAdapter(context: Context) : RecyclerView.Adapter<FinanceOp
 }
 
 class FinanceOperationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    val activity = itemView.context as? MainActivity
     val typeOperation: TextView = itemView.findViewById(R.id.type_operation)
     val categoryOperation: TextView = itemView.findViewById(R.id.category_operation)
     val amountOperation: TextView = itemView.findViewById(R.id.text_amount)

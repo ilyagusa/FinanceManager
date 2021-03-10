@@ -40,4 +40,6 @@
     <string name="ok">Ок</string>
     <string name="create_new_category_title">Создание новой категории</string>
     <string name="empty_name_category">Название категории не должно быть пустым</string>
+    <string name="title_delete_finance_operation">Вы действительно хотите удалить эту операцию?</string>
+    <string name="zero">0.00</string>
 </resources>

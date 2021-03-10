@@ -18,9 +18,6 @@ class HistoryViewModel(
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main +  viewModelJob)
 
-    val sumExpensesByMonth = dao.getSumAmountByTypeAndMonth(SimpleDateFormat("MM").format(Date()), "Расходы")
-    val sumIncomeByMonth = dao.getSumAmountByTypeAndMonth(SimpleDateFormat("MM").format(Date()), "Доходы")
-
     private var toOperation = MutableLiveData<FinanceOperation?>()
 
     val operationList = dao.getAllFinanceOperation(SimpleDateFormat("MM").format(Date()))
@@ -42,7 +39,17 @@ class HistoryViewModel(
         }
     }
 
+    fun deleteFinanceOperation(operation: FinanceOperation) {
+        uiScope.launch {
+            delete(operation)
+        }
+    }
 
+    private suspend fun delete(operation: FinanceOperation) {
+        return withContext(Dispatchers.IO) {
+            dao.delete(operation)
+        }
+    }
 
     override fun onCleared() {
         super.onCleared()

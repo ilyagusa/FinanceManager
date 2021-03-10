@@ -3,12 +3,14 @@ package com.example.financemanager.ui.dialog
 import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
+import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.financemanager.DecimalDigitsInputFilter
 import com.example.financemanager.R
 import com.example.financemanager.database.expensesCategoryDatabase.ExpensesCategory
 import com.example.financemanager.database.expensesCategoryDatabase.ExpensesCategoryDatabase
@@ -37,6 +39,7 @@ class CreateExpensesDialog(item: ExpensesCategory) : DialogFragment() {
         val viewModelFactoryExpensesCategory = FinanceOperationViewModelFactory(expensesCategoryDao, daoFinanceOperationDao, application)
         viewModelExpenses = ViewModelProvider(this, viewModelFactoryExpensesCategory).get(FinanceOperationViewModel::class.java)
         binding.editExpensesCategory.setText(item.categoryName)
+        binding.editExpensesAmount.filters = arrayOf<InputFilter>(DecimalDigitsInputFilter(10, 2))
         binding.buttonCancelExpenses.setOnClickListener() {
             dismiss()
         }

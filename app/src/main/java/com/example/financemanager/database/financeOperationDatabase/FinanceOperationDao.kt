@@ -16,15 +16,16 @@ interface FinanceOperationDao {
     @Delete
     fun delete(operation: FinanceOperation)
 
-    @Query("SELECT * FROM finance_operation WHERE strftime('%m', date_operation) = :month ORDER BY id DESC")
-    fun getAllFinanceOperation(month: String): LiveData<List<FinanceOperation>>
-
     @Query("SELECT * FROM finance_operation ORDER BY id DESC LIMIT 1")
     fun getToFinanceOperation(): FinanceOperation?
+
+    @Query("SELECT * FROM finance_operation WHERE strftime('%m', date_operation) = :month ORDER BY id DESC")
+    fun getAllFinanceOperation(month: String): LiveData<List<FinanceOperation>>
 
     @Query("SELECT  SUM(amount) FROM finance_operation WHERE strftime('%m', date_operation) = :month AND type = :type")
     fun getSumAmountByTypeAndMonth(month: String, type: String): LiveData<Double>?
 
     @Query("SELECT SUM(amount) FROM finance_operation WHERE strftime('%m', date_operation) = :month")
     fun getSumByMonth(month: String): LiveData<Double>?
+
 }

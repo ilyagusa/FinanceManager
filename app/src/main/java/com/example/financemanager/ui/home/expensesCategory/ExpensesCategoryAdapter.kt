@@ -40,14 +40,12 @@ class ExpensesCategoryAdapter(viewModel: FinanceOperationViewModel, context: Con
 
         //Удаление категории
         holder.deleteButton.setOnClickListener(){
-            //createDeleteChooseDialog(item)
             val dialog = DeleteCategoryDialog(item)
             activity?.supportFragmentManager?.let {it1 -> dialog.show(it1, "deleteCategoryDialog")}
         }
 
         //Редактирование названия категории
         holder.redactionButton.setOnClickListener(){
-            //createRedactCategoryDialog(item)
             val dialog = RedactCategoryDialog(item)
             activity?.supportFragmentManager?.let {it1 -> dialog.show(it1, "redactCategoryDialog")}
         }

@@ -29,7 +29,7 @@ class DeleteCategoryDialog(item: ExpensesCategory) : DialogFragment() {
             savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentChooseDeleteDialogBinding = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_choose_delete_dialog, container, false)
+                inflater, R.layout.fragment_delete_finance_operation, container, false)
         val application = requireNotNull(this.activity).application
         val expensesCategoryDao = ExpensesCategoryDatabase.getInstance(application).getExpensesCategoryDatabaseDao()
         val daoFinanceOperationDao = FinanceOperationDatabase.getInstance(application).getFinanceOperationDatabaseDao()
