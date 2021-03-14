@@ -28,4 +28,7 @@ interface FinanceOperationDao {
     @Query("SELECT SUM(amount) FROM finance_operation WHERE strftime('%m', date_operation) = :month")
     fun getSumByMonth(month: String): LiveData<Double>?
 
+    //Получени баланса на текущий день
+    @Query("SELECT SUM(amount) FROM finance_operation WHERE  strftime('%dd', date_operation)  <=  :date")
+    fun getSumBeforeDay(date: String): Double?
 }
