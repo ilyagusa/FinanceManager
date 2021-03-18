@@ -20,30 +20,50 @@ import com.example.financemanager.ui.home.expensesCategory.FinanceOperationViewM
 import kotlinx.android.synthetic.main.alert_empty_category.*
 
 
-class RedactCategoryDialog(item: ExpensesCategory) : DialogFragment() {
+class RedactCategoryDialog() : DialogFragment() {
 
     private lateinit var viewModelExpenses: FinanceOperationViewModel
-    private var item: ExpensesCategory = item
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentEditCategoryNameBinding = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_edit_category_name, container, false)
+            inflater, R.layout.fragment_edit_category_name, container, false
+        )
         val application = requireNotNull(this.activity).application
-        val expensesCategoryDao = ExpensesCategoryDatabase.getInstance(application).getExpensesCategoryDatabaseDao()
-        val daoFinanceOperationDao = FinanceOperationDatabase.getInstance(application).getFinanceOperationDatabaseDao()
-        val viewModelFactoryExpensesCategory = FinanceOperationViewModelFactory(expensesCategoryDao, daoFinanceOperationDao, application)
-        viewModelExpenses = ViewModelProvider(this, viewModelFactoryExpensesCategory).get(FinanceOperationViewModel::class.java)
+        val expensesCategoryDao =
+            ExpensesCategoryDatabase.getInstance(application).getExpensesCategoryDatabaseDao()
+        val daoFinanceOperationDao =
+            FinanceOperationDatabase.getInstance(application).getFinanceOperationDatabaseDao()
+        val viewModelFactoryExpensesCategory = FinanceOperationViewModelFactory(
+            expensesCategoryDao,
+            daoFinanceOperationDao,
+            application
+        )
+        viewModelExpenses = ViewModelProvider(
+            this,
+            viewModelFactoryExpensesCategory
+        ).get(FinanceOperationViewModel::class.java)
+
+        val categoryNameArg = arguments?.getString("category_name")
+        var categoryName = ""
+        if (categoryNameArg != null) {
+            categoryName = categoryNameArg
+        }
+
         binding.textCategoryChange.movementMethod = ScrollingMovementMethod()
-        val str: String = resources.getString(R.string.text_change_name_category) + " '" + item.categoryName + "'"
+        val str: String =
+            resources.getString(R.string.text_change_name_category) + " '" + categoryName + "'"
         binding.textCategoryChange.text = str
-        val oldCategoryName = item.categoryName
+        val oldCategoryName = categoryName
         binding.buttonSubmitNameCategory.setOnClickListener() {
             if (binding.editNameCategory.text.isNotEmpty()) {
-                viewModelExpenses.updateCategoryName(oldCategoryName, binding.editNameCategory.text.toString())
+                viewModelExpenses.updateCategoryName(
+                    oldCategoryName,
+                    binding.editNameCategory.text.toString()
+                )
                 dismiss()
             } else createAlertEmptyCategoryNameDialog()
         }
@@ -51,11 +71,7 @@ class RedactCategoryDialog(item: ExpensesCategory) : DialogFragment() {
     }
 
     private fun createAlertEmptyCategoryNameDialog() {
-        val alertDialogEmptyAmount: Dialog = Dialog(this.context as Activity)
-        alertDialogEmptyAmount.setContentView(R.layout.alert_empty_category)
-        alertDialogEmptyAmount.button_ok2.setOnClickListener() {
-            alertDialogEmptyAmount.dismiss()
-        }
-        alertDialogEmptyAmount.show()
+        val dialog = AlertEmptyCategoryDialog()
+        activity?.supportFragmentManager?.let { it1 -> dialog.show(it1, "alertEmptyCategoryDialog2") }
     }
 }

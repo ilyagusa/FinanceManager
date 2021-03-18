@@ -1,16 +1,13 @@
 package com.example.financemanager.ui.home
 
 import android.app.Application
-import android.text.Editable
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.financemanager.database.expensesCategoryDatabase.ExpensesCategory
 import com.example.financemanager.database.expensesCategoryDatabase.ExpensesCategoryDao
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.exp
 
 class HomeViewModel(
         private val dao: ExpensesCategoryDao,
@@ -72,16 +69,6 @@ class HomeViewModel(
         }
     }
 
-    fun checkContainCategoryInDatabase(categoryName: String) {
-        uiScope.launch {
-            asdExp.value = getToExpensesByNameFromDatabase(categoryName)
-            if (asdExp.value?.categoryName != categoryName){
-                insertButton(categoryName)
-            }
-        }
-    }
-
-
     fun onClear() {
         uiScope.launch {
             clear()
@@ -99,9 +86,4 @@ class HomeViewModel(
         super.onCleared()
         viewModelJob.cancel()
     }
-
-    private var _text = MutableLiveData<String>("100000")
-    val text: LiveData<String>
-        get() = _text
-
 }

@@ -1,7 +1,5 @@
 package com.example.financemanager.ui.home
 
-import android.app.Activity
-import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,12 +18,10 @@ import com.example.financemanager.database.financeOperationDatabase.FinanceOpera
 import com.example.financemanager.databinding.FragmentHomeBinding
 import com.example.financemanager.ui.dialog.CreateCategoryDialog
 import com.example.financemanager.ui.dialog.CreateIncomeDialog
+import com.example.financemanager.ui.dialog.DeleteCategoryDialog
 import com.example.financemanager.ui.home.expensesCategory.ExpensesCategoryAdapter
 import com.example.financemanager.ui.home.expensesCategory.FinanceOperationViewModel
 import com.example.financemanager.ui.home.expensesCategory.FinanceOperationViewModelFactory
-import kotlinx.android.synthetic.main.alert_empty_category.*
-import kotlinx.android.synthetic.main.fragment_create_new_category.*
-
 
 class HomeFragment : Fragment() {
 
@@ -44,7 +40,7 @@ class HomeFragment : Fragment() {
         val viewModelFactoryExpensesCategory = FinanceOperationViewModelFactory(expensesCategoryDao, daoFinanceOperationDao, application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
         viewModelExpenses = ViewModelProvider(this, viewModelFactoryExpensesCategory).get(FinanceOperationViewModel::class.java)
-        val adapter = ExpensesCategoryAdapter(viewModelExpenses, this.context as Activity)
+        val adapter = ExpensesCategoryAdapter()
         binding.buttonListExpenses.adapter = adapter
 
         var pie = AnyChart.pie()
@@ -52,24 +48,32 @@ class HomeFragment : Fragment() {
         dataPieChart.add(ValueDataEntry(resources.getString(R.string.expenses), 0))
 
         binding.addCategoryButton.setOnClickListener() {
-            //createNewCategoryDialog()
-            val dialog = CreateCategoryDialog(viewModel)
+            val dialog = CreateCategoryDialog()
             activity?.supportFragmentManager?.let { it1 -> dialog.show(it1, "createCategoryDialog") }
         }
 
         binding.buttonSalary.setOnClickListener() {
-            val dialog = CreateIncomeDialog(resources.getString(R.string.salary))
-            activity?.supportFragmentManager?.let { it1 -> dialog.show(it1, "createIncomeDialog") }
-        }
-
-        binding.buttonPartTimeJob.setOnClickListener() {
-            val dialog = CreateIncomeDialog(resources.getString(R.string.part_time_job))
+            val args: Bundle = Bundle()
+            args.putString("income_category_name", resources.getString(R.string.salary))
+            val dialog = CreateIncomeDialog()
+            dialog.arguments = args
             activity?.supportFragmentManager?.let { it1 -> dialog.show(it1, "createIncomeDialog1") }
         }
 
-        binding.buttonOtherIncome.setOnClickListener() {
-            val dialog = CreateIncomeDialog(resources.getString(R.string.other_income))
+        binding.buttonPartTimeJob.setOnClickListener() {
+            val args: Bundle = Bundle()
+            args.putString("income_category_name", resources.getString(R.string.part_time_job))
+            val dialog = CreateIncomeDialog()
+            dialog.arguments = args
             activity?.supportFragmentManager?.let { it1 -> dialog.show(it1, "createIncomeDialog2") }
+        }
+
+        binding.buttonOtherIncome.setOnClickListener() {
+            val args: Bundle = Bundle()
+            args.putString("income_category_name", resources.getString(R.string.other_income))
+            val dialog = CreateIncomeDialog()
+            dialog.arguments = args
+            activity?.supportFragmentManager?.let { it1 -> dialog.show(it1, "createIncomeDialog3") }
         }
 
         viewModelExpenses.sumExpensesByMonth?.observe(viewLifecycleOwner, Observer { sumExpensesByMonth ->
@@ -114,33 +118,6 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    private fun createNewCategoryDialog() {
-        val dialog: Dialog = Dialog(this.context as Activity)
-        dialog.setContentView(R.layout.fragment_create_new_category)
-
-        dialog.button_create_new_category.setOnClickListener() {
-            if (dialog.edit_create_new_category.text.isNotEmpty()) {
-                val nameCategory: String = dialog.edit_create_new_category.text.toString()
-                viewModel.checkContainCategoryInDatabase(nameCategory)
-                dialog.dismiss()
-            } else {
-                createAlertEmptyCategoryNameDialog()
-            }
-        }
-        dialog.button_cancel_new_category.setOnClickListener() {
-            dialog.dismiss()
-        }
-        dialog.show()
-    }
-
-    private fun createAlertEmptyCategoryNameDialog() {
-        val alertDialogEmptyAmount: Dialog = Dialog(this.context as Activity)
-        alertDialogEmptyAmount.setContentView(R.layout.alert_empty_category)
-        alertDialogEmptyAmount.button_ok2.setOnClickListener() {
-            alertDialogEmptyAmount.dismiss()
-        }
-        alertDialogEmptyAmount.show()
-    }
 
     private fun createPieChart(binding: FragmentHomeBinding, pie: Pie) {
         pie.title(viewModel.dateString)

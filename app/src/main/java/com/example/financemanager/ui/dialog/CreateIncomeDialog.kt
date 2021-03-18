@@ -21,10 +21,9 @@ import com.example.financemanager.ui.home.expensesCategory.FinanceOperationViewM
 import kotlinx.android.synthetic.main.alert_empty_amount.*
 
 
-class CreateIncomeDialog(incomeCategoryName: String) : DialogFragment() {
+class CreateIncomeDialog() : DialogFragment() {
 
     private lateinit var viewModelExpenses: FinanceOperationViewModel
-    private var incomeCategoryName = incomeCategoryName
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -38,6 +37,13 @@ class CreateIncomeDialog(incomeCategoryName: String) : DialogFragment() {
         val daoFinanceOperationDao = FinanceOperationDatabase.getInstance(application).getFinanceOperationDatabaseDao()
         val viewModelFactoryExpensesCategory = FinanceOperationViewModelFactory(expensesCategoryDao, daoFinanceOperationDao, application)
         viewModelExpenses = ViewModelProvider(this, viewModelFactoryExpensesCategory).get(FinanceOperationViewModel::class.java)
+        var incomeCategoryName = ""
+        val incomeCategoryNameArg = arguments?.getString("income_category_name")
+
+        if (incomeCategoryNameArg != null){
+            incomeCategoryName = incomeCategoryNameArg
+        }
+
         binding.titleCreateExpense.text = resources.getString(R.string.title_create_income)
         binding.editExpensesCategory.setText(incomeCategoryName)
         binding.editExpensesAmount.filters = arrayOf<InputFilter>(DecimalDigitsInputFilter(10, 2))
@@ -67,12 +73,8 @@ class CreateIncomeDialog(incomeCategoryName: String) : DialogFragment() {
     }
 
     private fun createAlertEmptyAmountDialog() {
-        val alertDialogEmptyAmount: Dialog = Dialog(this.context as Activity)
-        alertDialogEmptyAmount.setContentView(R.layout.alert_empty_amount)
-        alertDialogEmptyAmount.button_ok.setOnClickListener(){
-            alertDialogEmptyAmount.dismiss()
-        }
-        alertDialogEmptyAmount.show()
+        val dialog = AlertEmptyAmountDialog()
+        activity?.supportFragmentManager?.let { it1 -> dialog.show(it1, "alertEmptyAmountIncomeDialog") }
     }
 
 }

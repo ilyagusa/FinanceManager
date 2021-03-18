@@ -30,7 +30,7 @@ import com.example.financemanager.ui.home.expensesCategory.FinanceOperationViewM
 
 class StatisticsFragment : Fragment() {
 
-    private lateinit var viewModelExpenses: FinanceOperationViewModel
+    private lateinit var viewModelStatistics: StatisticsViewModel
     private var dataLinearChart: MutableList<DataEntry> = arrayListOf()
 
     override fun onCreateView(
@@ -41,26 +41,24 @@ class StatisticsFragment : Fragment() {
             inflater, R.layout.fragment_statistics, container, false
         )
         val application = requireNotNull(this.activity).application
-        val expensesCategoryDao =
-            ExpensesCategoryDatabase.getInstance(application).getExpensesCategoryDatabaseDao()
+
         val daoFinanceOperationDao =
             FinanceOperationDatabase.getInstance(application).getFinanceOperationDatabaseDao()
-        val viewModelFactoryExpensesCategory = FinanceOperationViewModelFactory(
-            expensesCategoryDao,
+        val viewModelFactoryStatistics = StatisticsViewModelFactory(
             daoFinanceOperationDao,
             application
         )
-        viewModelExpenses = ViewModelProvider(
+        viewModelStatistics = ViewModelProvider(
             this,
-            viewModelFactoryExpensesCategory
-        ).get(FinanceOperationViewModel::class.java)
+            viewModelFactoryStatistics
+        ).get(StatisticsViewModel::class.java)
 
 
         //Создание Линенйной графика, содержащего информацию о балансе
         var cartesian = AnyChart.line()
         dataLinearChart.add(ValueDataEntry("1", 0))
 
-        viewModelExpenses.listBalanceOfMonth.observe(viewLifecycleOwner, Observer { listBalance ->
+        viewModelStatistics.listBalanceOfMonth.observe(viewLifecycleOwner, Observer { listBalance ->
             cartesian.removeAllSeries()
             for (dayBalance in listBalance) {
                 dataLinearChart.add(dayBalance)
@@ -90,7 +88,7 @@ class StatisticsFragment : Fragment() {
         cartesian.xAxis(0).labels().padding(5.0, 5.0, 5.0, 5.0)
 
         val set: Set = Set.instantiate()
-        set.data(seriesDataValue)
+        set.data(seriesDataValue) 
         val series1Mapping: Mapping = set.mapAs("{ x: 'x', value: 'value' }")
         val series1: Line = cartesian.line(series1Mapping)
         series1.name(resources.getString(R.string.balance))

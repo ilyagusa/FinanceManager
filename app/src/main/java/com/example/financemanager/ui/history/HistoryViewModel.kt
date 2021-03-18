@@ -39,6 +39,18 @@ class HistoryViewModel(
         }
     }
 
+    fun deleteFinanceOperationById(id: Long){
+        uiScope.launch {
+            deleteById(id)
+        }
+    }
+
+    private suspend fun deleteById(id: Long){
+        return withContext(Dispatchers.IO){
+            dao.deleteFinanceOperationById(id)
+        }
+    }
+
     fun deleteFinanceOperation(operation: FinanceOperation) {
         uiScope.launch {
             delete(operation)

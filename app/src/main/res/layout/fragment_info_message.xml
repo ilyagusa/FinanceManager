@@ -1,33 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="240dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/text_info_message"
-        style="@style/ExpensesText"
-        android:layout_width="284dp"
-        android:layout_height="124dp"
-        android:paddingStart="7dp"
-        android:paddingEnd="7dp"
-        android:scrollbars="vertical|none"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.753" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="240dp">
 
-    <TextView
-        android:id="@+id/titile_info_message"
-        style="@style/TopTextStyle"
-        android:layout_width="307dp"
-        android:layout_height="80dp"
-        android:gravity="center"
-        android:text="@string/titile_info_message"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/text_info_message"
+            style="@style/ExpensesText"
+            android:layout_width="284dp"
+            android:layout_height="124dp"
+            android:layout_marginTop="8dp"
+            android:paddingStart="7dp"
+            android:paddingEnd="7dp"
+            android:scrollbars="vertical|none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_info_message" />
+
+        <TextView
+            android:id="@+id/title_info_message"
+            style="@style/TopTextStyle"
+            android:layout_width="307dp"
+            android:layout_height="80dp"
+            android:gravity="center"
+            android:text="@string/titile_info_message"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -21,10 +21,9 @@ import com.example.financemanager.ui.home.expensesCategory.FinanceOperationViewM
 import kotlinx.android.synthetic.main.alert_empty_amount.*
 
 
-class CreateExpensesDialog(item: ExpensesCategory) : DialogFragment() {
+class CreateExpensesDialog() : DialogFragment() {
 
     private lateinit var viewModelExpenses: FinanceOperationViewModel
-    private var item: ExpensesCategory = item
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -38,19 +37,26 @@ class CreateExpensesDialog(item: ExpensesCategory) : DialogFragment() {
         val daoFinanceOperationDao = FinanceOperationDatabase.getInstance(application).getFinanceOperationDatabaseDao()
         val viewModelFactoryExpensesCategory = FinanceOperationViewModelFactory(expensesCategoryDao, daoFinanceOperationDao, application)
         viewModelExpenses = ViewModelProvider(this, viewModelFactoryExpensesCategory).get(FinanceOperationViewModel::class.java)
-        binding.editExpensesCategory.setText(item.categoryName)
+
+        val categoryNameArg = arguments?.getString("category_name")
+        var categoryName = ""
+        if (categoryNameArg != null){
+            categoryName = categoryNameArg
+        }
+
+        binding.editExpensesCategory.setText(categoryName)
         binding.editExpensesAmount.filters = arrayOf<InputFilter>(DecimalDigitsInputFilter(10, 2))
         binding.buttonCancelExpenses.setOnClickListener() {
             dismiss()
         }
 
         binding.buttonAddExpenses.setOnClickListener() {
-            var value: Double = 0.0
+            var valueAmount: Double = 0.0
             var message: String = binding.editExpensesMessage.text.toString()
-            var stringValue: String = binding.editExpensesAmount.text.toString()
-            if (stringValue.isNotEmpty()){
-                value = stringValue.toDouble()
-                viewModelExpenses.insertFinanceOperation((-1)*value, "Расходы", item.categoryName, message)
+            var stringValueAmount: String = binding.editExpensesAmount.text.toString()
+            if (stringValueAmount.isNotEmpty()){
+                valueAmount = stringValueAmount.toDouble()
+                viewModelExpenses.insertFinanceOperation((-1)*valueAmount, "Расходы", categoryName, message)
                 dismiss()
             }
             else {
@@ -67,12 +73,8 @@ class CreateExpensesDialog(item: ExpensesCategory) : DialogFragment() {
     }
 
     private fun createAlertEmptyAmountDialog() {
-        val alertDialogEmptyAmount: Dialog = Dialog(this.context as Activity)
-        alertDialogEmptyAmount.setContentView(R.layout.alert_empty_amount)
-        alertDialogEmptyAmount.button_ok.setOnClickListener(){
-            alertDialogEmptyAmount.dismiss()
-        }
-        alertDialogEmptyAmount.show()
+        val dialog = AlertEmptyAmountDialog()
+        activity?.supportFragmentManager?.let { it1 -> dialog.show(it1, "alertEmptyAmountExpensesDialog") }
     }
 
 }

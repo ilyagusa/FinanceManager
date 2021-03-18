@@ -18,10 +18,9 @@ import com.example.financemanager.ui.home.expensesCategory.FinanceOperationViewM
 import com.example.financemanager.ui.home.expensesCategory.FinanceOperationViewModelFactory
 
 
-class DeleteCategoryDialog(item: ExpensesCategory) : DialogFragment() {
+class DeleteCategoryDialog() : DialogFragment() {
 
     private lateinit var viewModelExpenses: FinanceOperationViewModel
-    private var item: ExpensesCategory = item
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -29,20 +28,26 @@ class DeleteCategoryDialog(item: ExpensesCategory) : DialogFragment() {
             savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentChooseDeleteDialogBinding = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_delete_finance_operation, container, false)
+                inflater, R.layout.fragment_choose_delete_dialog, container, false)
         val application = requireNotNull(this.activity).application
         val expensesCategoryDao = ExpensesCategoryDatabase.getInstance(application).getExpensesCategoryDatabaseDao()
         val daoFinanceOperationDao = FinanceOperationDatabase.getInstance(application).getFinanceOperationDatabaseDao()
         val viewModelFactoryExpensesCategory = FinanceOperationViewModelFactory(expensesCategoryDao, daoFinanceOperationDao, application)
         viewModelExpenses = ViewModelProvider(this, viewModelFactoryExpensesCategory).get(FinanceOperationViewModel::class.java)
+        val categoryNameArg = arguments?.getString("category_name")
+
+        var categoryName = ""
+        if (categoryNameArg != null){
+            categoryName = categoryNameArg
+        }
 
         binding.textViewChooseDelete.movementMethod = ScrollingMovementMethod()
-        val str: String = resources.getString(R.string.choose_delete_dialog) + " '" + item.categoryName + "' ?"
+        val str: String = resources.getString(R.string.choose_delete_dialog) + " '" + categoryName + "' ?"
         binding.textViewChooseDelete.text = str
         binding.submitButton.setOnClickListener() {
-            viewModelExpenses.deleteCategoryByName(item.categoryName)
+            viewModelExpenses.deleteCategoryByName(categoryName)
             dismiss()
-            Toast.makeText(context, "Категория: ${item.categoryName} удалена", Toast.LENGTH_SHORT)
+            Toast.makeText(context, "Категория: ${categoryName} удалена", Toast.LENGTH_SHORT).show()
         }
         binding.cancelButton.setOnClickListener() {
             dismiss()

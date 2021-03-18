@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.res.Resources
+import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
@@ -16,13 +17,13 @@ import com.example.financemanager.MainActivity
 import com.example.financemanager.R
 import com.example.financemanager.database.financeOperationDatabase.FinanceOperation
 import com.example.financemanager.ui.dialog.DeleteFinanceOperationDialog
+import com.example.financemanager.ui.dialog.InfoMessageDialog
 import kotlinx.android.synthetic.main.fragment_edit_category_name.*
 import kotlinx.android.synthetic.main.fragment_info_message.*
 
 
 class FinanceOperationAdapter(context: Context) : RecyclerView.Adapter<FinanceOperationViewHolder>() {
 
-    private var context = context
     private val res: Resources = context.resources
 
     var data = listOf<FinanceOperation>()
@@ -42,7 +43,10 @@ class FinanceOperationAdapter(context: Context) : RecyclerView.Adapter<FinanceOp
             holder.typeOperation.text = res.getString(R.string.income)
         }
         holder.itemView.setOnLongClickListener() {
-            val dialog = DeleteFinanceOperationDialog(item)
+            val args: Bundle = Bundle()
+            args.putLong("id", item.operationId)
+            val dialog = DeleteFinanceOperationDialog()
+            dialog.arguments = args
             activity?.supportFragmentManager?.let { it1 -> dialog.show(it1, "deleteFinanceOprationDialog") }
             return@setOnLongClickListener true
         }
@@ -52,11 +56,11 @@ class FinanceOperationAdapter(context: Context) : RecyclerView.Adapter<FinanceOp
         holder.amountOperation.text = amountString
         holder.dateOperation.text = item.dateOperation
         holder.buttonInfoMessage.setOnClickListener() {
-            val dialog: Dialog = Dialog(context)
-            dialog.setContentView(R.layout.fragment_info_message)
-            dialog.text_info_message.text = item.informationMessage
-            dialog.text_info_message.movementMethod = ScrollingMovementMethod()
-            dialog.show()
+            val args: Bundle = Bundle()
+            args.putString("info_message", item.informationMessage)
+            val dialog = InfoMessageDialog()
+            dialog.arguments = args
+            activity?.supportFragmentManager?.let { it1 -> dialog.show(it1, "infoMessageDialog") }
         }
     }
 
@@ -71,6 +75,7 @@ class FinanceOperationAdapter(context: Context) : RecyclerView.Adapter<FinanceOp
 
 class FinanceOperationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val activity = itemView.context as? MainActivity
+    val context: Context = itemView.context
     val typeOperation: TextView = itemView.findViewById(R.id.type_operation)
     val categoryOperation: TextView = itemView.findViewById(R.id.category_operation)
     val amountOperation: TextView = itemView.findViewById(R.id.text_amount)

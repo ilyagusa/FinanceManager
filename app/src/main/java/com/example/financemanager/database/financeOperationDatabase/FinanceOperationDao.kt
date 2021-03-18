@@ -31,4 +31,7 @@ interface FinanceOperationDao {
     //Получени баланса на текущий день
     @Query("SELECT SUM(amount) FROM finance_operation WHERE  strftime('%dd', date_operation)  <=  :date")
     fun getSumBeforeDay(date: String): Double?
+
+    @Query("DELETE FROM finance_operation WHERE id = :id")
+    fun deleteFinanceOperationById(id: Long)
 }

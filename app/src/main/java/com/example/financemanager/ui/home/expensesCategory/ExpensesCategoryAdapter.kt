@@ -2,6 +2,7 @@ package com.example.financemanager.ui.home.expensesCategory
 
 import android.content.Context
 import android.content.res.Resources
+import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
@@ -17,11 +18,9 @@ import com.example.financemanager.ui.dialog.DeleteCategoryDialog
 import com.example.financemanager.ui.dialog.RedactCategoryDialog
 
 
-class ExpensesCategoryAdapter(viewModel: FinanceOperationViewModel, context: Context) : RecyclerView.Adapter<ExpensesCategoryViewHolder>() {
+class ExpensesCategoryAdapter() :
+    RecyclerView.Adapter<ExpensesCategoryViewHolder>() {
 
-    private var viewModelExpenses : FinanceOperationViewModel = viewModel
-    private var context = context
-    private val res: Resources = context.resources
 
     var data = listOf<ExpensesCategory>()
         set(value) {
@@ -39,28 +38,52 @@ class ExpensesCategoryAdapter(viewModel: FinanceOperationViewModel, context: Con
         holder.categoryName.movementMethod = ScrollingMovementMethod()
 
         //Удаление категории
-        holder.deleteButton.setOnClickListener(){
-            val dialog = DeleteCategoryDialog(item)
-            activity?.supportFragmentManager?.let {it1 -> dialog.show(it1, "deleteCategoryDialog")}
+        holder.deleteButton.setOnClickListener() {
+            val args: Bundle = Bundle()
+            args.putString("category_name", item.categoryName)
+            val dialog = DeleteCategoryDialog()
+            dialog.arguments = args
+            activity?.supportFragmentManager?.let { it1 ->
+                dialog.show(
+                    it1,
+                    "deleteCategoryDialog"
+                )
+            }
         }
 
         //Редактирование названия категории
-        holder.redactionButton.setOnClickListener(){
-            val dialog = RedactCategoryDialog(item)
-            activity?.supportFragmentManager?.let {it1 -> dialog.show(it1, "redactCategoryDialog")}
+        holder.redactionButton.setOnClickListener() {
+            val args: Bundle = Bundle()
+            args.putString("category_name", item.categoryName)
+            val dialog = RedactCategoryDialog()
+            dialog.arguments = args
+            activity?.supportFragmentManager?.let { it1 ->
+                dialog.show(
+                    it1,
+                    "redactCategoryDialog"
+                )
+            }
         }
 
         //Добавление расходов
         holder.expenseAmountButton.setOnClickListener() {
-            val dialog = CreateExpensesDialog(item)
-            activity?.supportFragmentManager?.let { it1 -> dialog.show(it1, "createExpensesDialog") }
+            val args: Bundle = Bundle()
+            args.putString("category_name", item.categoryName)
+            val dialog = CreateExpensesDialog()
+            dialog.arguments = args
+            activity?.supportFragmentManager?.let { it1 ->
+                dialog.show(
+                    it1,
+                    "createExpensesDialog"
+                )
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpensesCategoryViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater
-                .inflate(R.layout.list_button_expenses, parent, false)
+            .inflate(R.layout.list_button_expenses, parent, false)
         return ExpensesCategoryViewHolder(view)
     }
 

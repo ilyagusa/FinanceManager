@@ -36,13 +36,10 @@ class FinanceOperationViewModel(
         "Доходы"
     )
     val sumAllOperation = daoFinanceOperation.getSumByMonth(SimpleDateFormat("MM").format(Date()))
-    var listBalanceOfMonth = MutableLiveData<MutableList<DataEntry>>()
 
     init {
         initializeToExpenses()
         initializeToFinanceOperation()
-        listBalanceOfMonth.value = arrayListOf()
-        getListBalanceDay()
     }
 
 
@@ -126,38 +123,4 @@ class FinanceOperationViewModel(
         }
     }
 
-    private fun getListBalanceDay() {
-        uiScope.launch {
-            val dataBalance: MutableList<DataEntry> = arrayListOf()
-            val today = SimpleDateFormat("dd").format(Date())
-            for (i in 1..today.toInt()) {
-                var day = "${i+1}"
-                if (i < 10){
-                    day = "0${i+1}"
-                }
-                val balanceBeforeDay = getBalanceBeforeDay(day)
-                var dayDataEntry: DataEntry
-                if (balanceBeforeDay != null) {
-                    dayDataEntry = ValueDataEntry("${i}", balanceBeforeDay)
-                }
-                else dayDataEntry = ValueDataEntry("${i}", 0.00)
-                dataBalance.add(dayDataEntry)
-            }
-            listBalanceOfMonth.value = dataBalance
-        }
-    }
-
-
-    private suspend fun getBalanceBeforeDay(day: String): Double? {
-        return withContext(Dispatchers.IO) {
-            val sum = daoFinanceOperation.getSumBeforeDay(day)
-            sum
-        }
-    }
-
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
-    }
 }

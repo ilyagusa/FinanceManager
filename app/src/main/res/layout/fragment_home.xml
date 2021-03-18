@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_home_layout"
         android:layout_width="match_parent"
-        android:layout_height="700dp"
+        android:layout_height="match_parent"
         android:background="#DAEEFF"
         tools:context=".ui.home.HomeFragment">
 
@@ -15,7 +15,7 @@
             android:id="@+id/balance_layout"
             android:layout_width="376dp"
             android:layout_height="190dp"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/shadow_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

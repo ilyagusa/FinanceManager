@@ -15,25 +15,33 @@ import com.example.financemanager.ui.history.HistoryViewModel
 import com.example.financemanager.ui.history.HistoryViewModelFactory
 
 
-class DeleteFinanceOperationDialog(item: FinanceOperation) : DialogFragment() {
+class DeleteFinanceOperationDialog() : DialogFragment() {
 
     private lateinit var viewModelHistory: HistoryViewModel
-    private var item: FinanceOperation = item
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentDeleteFinanceOperationBinding = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_delete_finance_operation, container, false)
+            inflater, R.layout.fragment_delete_finance_operation, container, false
+        )
         val application = requireNotNull(this.activity).application
-        val daoFinanceOperationDao = FinanceOperationDatabase.getInstance(application).getFinanceOperationDatabaseDao()
+        val daoFinanceOperationDao =
+            FinanceOperationDatabase.getInstance(application).getFinanceOperationDatabaseDao()
         val viewModelFactoryHistory = HistoryViewModelFactory(daoFinanceOperationDao, application)
-        viewModelHistory =  ViewModelProvider(this,viewModelFactoryHistory).get(HistoryViewModel::class.java)
+        viewModelHistory =
+            ViewModelProvider(this, viewModelFactoryHistory).get(HistoryViewModel::class.java)
+
+        var id: Long = 123456789
+        val idArg = arguments?.getLong("id")
+        if (idArg != null) {
+            id = idArg
+        }
 
         binding.buttonSubmitDeleteFinanceOperation.setOnClickListener() {
-            viewModelHistory.deleteFinanceOperation(item)
+            viewModelHistory.deleteFinanceOperationById(id)
             dismiss()
         }
 
