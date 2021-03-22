@@ -1,6 +1,5 @@
 package com.example.financemanager.ui.dialog
 
-import com.example.financemanager.database.financeOperationDatabase.FinanceOperation
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.financemanager.R
-import com.example.financemanager.database.financeOperationDatabase.FinanceOperationDatabase
+import com.example.financemanager.database.expensesCategoryDatabase.ExpensesCategoryDatabase
 import com.example.financemanager.databinding.FragmentDeleteFinanceOperationBinding
 import com.example.financemanager.ui.history.HistoryViewModel
 import com.example.financemanager.ui.history.HistoryViewModelFactory
@@ -29,7 +28,7 @@ class DeleteFinanceOperationDialog() : DialogFragment() {
         )
         val application = requireNotNull(this.activity).application
         val daoFinanceOperationDao =
-            FinanceOperationDatabase.getInstance(application).getFinanceOperationDatabaseDao()
+            ExpensesCategoryDatabase.getInstance(application).getFinanceOperationDatabaseDao()
         val viewModelFactoryHistory = HistoryViewModelFactory(daoFinanceOperationDao, application)
         viewModelHistory =
             ViewModelProvider(this, viewModelFactoryHistory).get(HistoryViewModel::class.java)

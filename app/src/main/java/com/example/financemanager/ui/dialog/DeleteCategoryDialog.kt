@@ -10,9 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.financemanager.R
-import com.example.financemanager.database.expensesCategoryDatabase.ExpensesCategory
 import com.example.financemanager.database.expensesCategoryDatabase.ExpensesCategoryDatabase
-import com.example.financemanager.database.financeOperationDatabase.FinanceOperationDatabase
 import com.example.financemanager.databinding.FragmentChooseDeleteDialogBinding
 import com.example.financemanager.ui.home.expensesCategory.FinanceOperationViewModel
 import com.example.financemanager.ui.home.expensesCategory.FinanceOperationViewModelFactory
@@ -31,7 +29,7 @@ class DeleteCategoryDialog() : DialogFragment() {
                 inflater, R.layout.fragment_choose_delete_dialog, container, false)
         val application = requireNotNull(this.activity).application
         val expensesCategoryDao = ExpensesCategoryDatabase.getInstance(application).getExpensesCategoryDatabaseDao()
-        val daoFinanceOperationDao = FinanceOperationDatabase.getInstance(application).getFinanceOperationDatabaseDao()
+        val daoFinanceOperationDao = ExpensesCategoryDatabase.getInstance(application).getFinanceOperationDatabaseDao()
         val viewModelFactoryExpensesCategory = FinanceOperationViewModelFactory(expensesCategoryDao, daoFinanceOperationDao, application)
         viewModelExpenses = ViewModelProvider(this, viewModelFactoryExpensesCategory).get(FinanceOperationViewModel::class.java)
         val categoryNameArg = arguments?.getString("category_name")

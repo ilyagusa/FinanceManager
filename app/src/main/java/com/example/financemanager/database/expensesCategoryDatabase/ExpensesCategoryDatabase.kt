@@ -5,11 +5,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.financemanager.database.financeOperationDatabase.FinanceOperation
+import com.example.financemanager.database.financeOperationDatabase.FinanceOperationDao
 
-@Database(entities = [ExpensesCategory::class], version = 1, exportSchema = false)
+@Database(entities = [ExpensesCategory::class, FinanceOperation::class], version = 1, exportSchema = false)
 abstract class ExpensesCategoryDatabase : RoomDatabase() {
 
     abstract fun getExpensesCategoryDatabaseDao(): ExpensesCategoryDao
+    abstract fun getFinanceOperationDatabaseDao(): FinanceOperationDao
 
     companion object {
         @Volatile
@@ -20,7 +23,7 @@ abstract class ExpensesCategoryDatabase : RoomDatabase() {
                 var instance = INSTANCE
                 if (instance == null) {
                     instance = Room.databaseBuilder(context.applicationContext,
-                        ExpensesCategoryDatabase::class.java, "expenses_category_db")
+                        ExpensesCategoryDatabase::class.java, "main_database")
                         .build()
                     INSTANCE = instance
                 }

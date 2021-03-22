@@ -14,11 +14,9 @@ import com.anychart.chart.common.dataentry.ValueDataEntry
 import com.anychart.charts.Pie
 import com.example.financemanager.R
 import com.example.financemanager.database.expensesCategoryDatabase.ExpensesCategoryDatabase
-import com.example.financemanager.database.financeOperationDatabase.FinanceOperationDatabase
 import com.example.financemanager.databinding.FragmentHomeBinding
 import com.example.financemanager.ui.dialog.CreateCategoryDialog
 import com.example.financemanager.ui.dialog.CreateIncomeDialog
-import com.example.financemanager.ui.dialog.DeleteCategoryDialog
 import com.example.financemanager.ui.home.expensesCategory.ExpensesCategoryAdapter
 import com.example.financemanager.ui.home.expensesCategory.FinanceOperationViewModel
 import com.example.financemanager.ui.home.expensesCategory.FinanceOperationViewModelFactory
@@ -35,7 +33,7 @@ class HomeFragment : Fragment() {
                 inflater, R.layout.fragment_home, container, false)
         val application = requireNotNull(this.activity).application
         val expensesCategoryDao = ExpensesCategoryDatabase.getInstance(application).getExpensesCategoryDatabaseDao()
-        val daoFinanceOperationDao = FinanceOperationDatabase.getInstance(application).getFinanceOperationDatabaseDao()
+        val daoFinanceOperationDao = ExpensesCategoryDatabase.getInstance(application).getFinanceOperationDatabaseDao()
         val viewModelFactory = HomeViewModelFactory(expensesCategoryDao, application)
         val viewModelFactoryExpensesCategory = FinanceOperationViewModelFactory(expensesCategoryDao, daoFinanceOperationDao, application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)

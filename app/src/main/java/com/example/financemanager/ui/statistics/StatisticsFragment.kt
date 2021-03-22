@@ -23,10 +23,7 @@ import com.anychart.enums.TooltipPositionMode;
 import com.anychart.graphics.vector.Stroke;
 import com.example.financemanager.R
 import com.example.financemanager.database.expensesCategoryDatabase.ExpensesCategoryDatabase
-import com.example.financemanager.database.financeOperationDatabase.FinanceOperationDatabase
 import com.example.financemanager.databinding.FragmentStatisticsBinding
-import com.example.financemanager.ui.home.expensesCategory.FinanceOperationViewModel
-import com.example.financemanager.ui.home.expensesCategory.FinanceOperationViewModelFactory
 
 class StatisticsFragment : Fragment() {
 
@@ -43,7 +40,7 @@ class StatisticsFragment : Fragment() {
         val application = requireNotNull(this.activity).application
 
         val daoFinanceOperationDao =
-            FinanceOperationDatabase.getInstance(application).getFinanceOperationDatabaseDao()
+            ExpensesCategoryDatabase.getInstance(application).getFinanceOperationDatabaseDao()
         val viewModelFactoryStatistics = StatisticsViewModelFactory(
             daoFinanceOperationDao,
             application

@@ -1,7 +1,5 @@
 package com.example.financemanager.ui.dialog
 
-import android.app.Activity
-import android.app.Dialog
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
@@ -11,13 +9,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.financemanager.R
-import com.example.financemanager.database.expensesCategoryDatabase.ExpensesCategory
 import com.example.financemanager.database.expensesCategoryDatabase.ExpensesCategoryDatabase
-import com.example.financemanager.database.financeOperationDatabase.FinanceOperationDatabase
 import com.example.financemanager.databinding.FragmentEditCategoryNameBinding
 import com.example.financemanager.ui.home.expensesCategory.FinanceOperationViewModel
 import com.example.financemanager.ui.home.expensesCategory.FinanceOperationViewModelFactory
-import kotlinx.android.synthetic.main.alert_empty_category.*
 
 
 class RedactCategoryDialog() : DialogFragment() {
@@ -36,7 +31,7 @@ class RedactCategoryDialog() : DialogFragment() {
         val expensesCategoryDao =
             ExpensesCategoryDatabase.getInstance(application).getExpensesCategoryDatabaseDao()
         val daoFinanceOperationDao =
-            FinanceOperationDatabase.getInstance(application).getFinanceOperationDatabaseDao()
+            ExpensesCategoryDatabase.getInstance(application).getFinanceOperationDatabaseDao()
         val viewModelFactoryExpensesCategory = FinanceOperationViewModelFactory(
             expensesCategoryDao,
             daoFinanceOperationDao,

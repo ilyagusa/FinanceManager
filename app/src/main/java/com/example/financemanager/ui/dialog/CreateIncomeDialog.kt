@@ -1,8 +1,6 @@
 package com.example.financemanager.ui.dialog
 
 
-import android.app.Activity
-import android.app.Dialog
 import android.os.Bundle
 import android.text.InputFilter
 import android.view.LayoutInflater
@@ -14,11 +12,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.financemanager.DecimalDigitsInputFilter
 import com.example.financemanager.R
 import com.example.financemanager.database.expensesCategoryDatabase.ExpensesCategoryDatabase
-import com.example.financemanager.database.financeOperationDatabase.FinanceOperationDatabase
 import com.example.financemanager.databinding.FragmentCreateExpenseBinding
 import com.example.financemanager.ui.home.expensesCategory.FinanceOperationViewModel
 import com.example.financemanager.ui.home.expensesCategory.FinanceOperationViewModelFactory
-import kotlinx.android.synthetic.main.alert_empty_amount.*
 
 
 class CreateIncomeDialog() : DialogFragment() {
@@ -34,7 +30,7 @@ class CreateIncomeDialog() : DialogFragment() {
                 inflater, R.layout.fragment_create_expense, container, false)
         val application = requireNotNull(this.activity).application
         val expensesCategoryDao = ExpensesCategoryDatabase.getInstance(application).getExpensesCategoryDatabaseDao()
-        val daoFinanceOperationDao = FinanceOperationDatabase.getInstance(application).getFinanceOperationDatabaseDao()
+        val daoFinanceOperationDao = ExpensesCategoryDatabase.getInstance(application).getFinanceOperationDatabaseDao()
         val viewModelFactoryExpensesCategory = FinanceOperationViewModelFactory(expensesCategoryDao, daoFinanceOperationDao, application)
         viewModelExpenses = ViewModelProvider(this, viewModelFactoryExpensesCategory).get(FinanceOperationViewModel::class.java)
         var incomeCategoryName = ""

@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.financemanager.R
-import com.example.financemanager.database.financeOperationDatabase.FinanceOperationDatabase
+import com.example.financemanager.database.expensesCategoryDatabase.ExpensesCategoryDatabase
 import com.example.financemanager.databinding.FragmentHistoryBinding
 
 class HistoryFragment : Fragment() {
@@ -23,7 +23,7 @@ class HistoryFragment : Fragment() {
             inflater, R.layout.fragment_history, container, false)
 
         val application = requireNotNull(this.activity).application
-        val daoFinanceOperationDao = FinanceOperationDatabase.getInstance(application).getFinanceOperationDatabaseDao()
+        val daoFinanceOperationDao = ExpensesCategoryDatabase.getInstance(application).getFinanceOperationDatabaseDao()
         val viewModelFactoryHistory = HistoryViewModelFactory(daoFinanceOperationDao, application)
         viewModel = ViewModelProvider(this, viewModelFactoryHistory).get(HistoryViewModel::class.java)
 

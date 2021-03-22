@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
@@ -36,8 +37,10 @@ class CreateCategoryDialog() : DialogFragment() {
 
 
         binding.buttonCreateNewCategory.setOnClickListener() {
-            if (binding.editCreateNewCategory.text.isNotEmpty()) {
-                viewModel.insertButton(binding.editCreateNewCategory.text.toString())
+            val categoryName = binding.editCreateNewCategory.text.toString()
+            if (categoryName.isNotEmpty()) {
+                Toast.makeText(this.context,"Категория !", Toast.LENGTH_SHORT).show()
+                viewModel.insertButton(categoryName)
                 dismiss()
             } else createAlertEmptyCategoryNameDialog()
         }

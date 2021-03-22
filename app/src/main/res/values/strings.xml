@@ -30,7 +30,7 @@
     <string name="income">Income</string>
     <string name="title_create_expense">Add expense: </string>
     <string name="title_create_income">Add income: </string>
-    <string name="create_expense_amount">The amount:</string>
+    <string name="create_expense_amount">Amount:</string>
     <string name="create_expense_message">Message:</string>
     <string name="hint_amount_expenses">500.00</string>
     <string name="example_message">To work</string>
